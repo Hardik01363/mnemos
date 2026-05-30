@@ -1,51 +1,70 @@
 #pragma once
 
-//include statements
+#include "../config.h"
 
-struct Page {
-    uint8_t data[PAGE_SIZE];
+namespace mnemos {
 
-    page_id_t get_page_id() {
-    return *reinterpret_cast<page_id_t*>(&data[0]);
-    }
+    struct SlotEntry {
+        uint16_t offset;
+        uint16_t length;
+    };
 
-    uint16_t get_fsp() {
-    return *reinterpret_cast<uint16_t*>(&data[4]);
-    }
+    struct Tuple {
+        uint8_t* data;
+        uint16_t length;
+    };
 
-    uint16_t get_slot_cnt() {
-    return *reinterpret_cast<uint16_t*>(&data[6]);
-    }
+    struct Page {
+        uint8_t data[PAGE_SIZE];
 
-    bool get_is_dirty() {
-    return *reinterpret_cast<bool*>(&data[8]);
-    }
+        page_id_t get_page_id() {
+        return *reinterpret_cast<page_id_t*>(&data[0]);
+        }
 
-    //1 byte padding here as uint16_t would be referenced faster if the offset is divisible by 2
+        uint16_t get_fsp() {
+        return *reinterpret_cast<uint16_t*>(&data[4]);
+        }
+
+        uint16_t get_slot_cnt() {
+        return *reinterpret_cast<uint16_t*>(&data[6]);
+        }
+
+        bool get_is_dirty() {
+        return *reinterpret_cast<bool*>(&data[8]);
+        }
+
+        //1 byte padding here as uint16_t would be referenced faster if the offset is divisible by 2
     
-    uint16_t get_pin_cnt() {
-    return *reinterpret_cast<uint16_t*>(&data[10]);
-    }
+        uint16_t get_pin_cnt() {
+        return *reinterpret_cast<uint16_t*>(&data[10]);
+        }
     
-    //12 bytes of padding is applied here in the page header for some future extensions (if needed). Header size is now a total of 24 bytes.
+        //12 bytes of padding is applied here in the page header for some future extensions (if needed). Header size is now a total of 24 bytes.
     
-   void set_page_id(page_id_t id) {
-        *reinterpret_cast<page_id_t*>(&data[0]) = id;
-    }
+       void set_page_id(page_id_t id) {
+            *reinterpret_cast<page_id_t*>(&data[0]) = id;
+        }
 
-    void set_fsp(uint16_t fsp) {
-        *reinterpret_cast<uint16_t*>(&data[4]) = fsp;
-    }
+        void set_fsp(uint16_t fsp) {
+            *reinterpret_cast<uint16_t*>(&data[4]) = fsp;
+        }
 
-    void set_slot_cnt(uint16_t cnt) {
-        *reinterpret_cast<uint16_t*>(&data[6]) = cnt;
-    }
+        void set_slot_cnt(uint16_t cnt) {
+            *reinterpret_cast<uint16_t*>(&data[6]) = cnt;
+        }
 
-    void set_is_dirty(bool dirty) {
-        *reinterpret_cast<bool*>(&data[8]) = dirty;
-    }
+        void set_is_dirty(bool dirty) {
+            *reinterpret_cast<bool*>(&data[8]) = dirty;
+        }
 
-    void set_pin_cnt(uint16_t cnt) {
-        *reinterpret_cast<uint16_t*>(&data[10]) = cnt;
-    }
+        void set_pin_cnt(uint16_t cnt) {
+            *reinterpret_cast<uint16_t*>(&data[10]) = cnt;
+        }
+
+        slot_id_t insert_slot(uint8_t* data, uint16_t length);
+        bool read_slot(slot_id_t id, uint8_t* buffer);
+        bool update_slot(slot_id_t id, uint8_t* data, uint16_t length);
+        bool delete_slot(slot_id_t id);
+        bool compact();
+    };
 }

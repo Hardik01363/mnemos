@@ -2,8 +2,8 @@
 
 namespace mnemos {
 
-    bool DiskManager::readpg(page_id_t, std::byte* buffer_ptr) {
-        uint64_t byte_offset = page_id_t * PAGE_SIZE;
+    bool DiskManager::readpg(page_id_t id, std::byte* buffer_ptr) {
+        uint64_t byte_offset = id * PAGE_SIZE;
 
         std::lock_guard<std::mutex> guard(lock);
         open_file_handle.seekg(byte_offset);
@@ -13,8 +13,8 @@ namespace mnemos {
         else return false;
     }
 
-    void DiskManager::wrtpg(page_id_t, std::byte* buffer_ptr) {
-        uint64_t byte_offset = page_id_t * PAGE_SIZE;
+    void DiskManager::wrtpg(page_id_t id, std::byte* buffer_ptr) {
+        uint64_t byte_offset = id * PAGE_SIZE;
 
         std::lock_guard<std::mutex> guard(lock);
         open_file_handle.seekp(byte_offset);

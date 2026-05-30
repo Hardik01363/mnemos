@@ -13,8 +13,8 @@ namespace mnemos{
 
         public:
             DiskManager(std::string filename);
-            bool readpg(page_id_t, std::byte* buffer_ptr);
-            void wrtpg(page_id_t, std::byte* buffer_ptr);
+            bool readpg(page_id_t id, std::byte* buffer_ptr);
+            void wrtpg(page_id_t id, std::byte* buffer_ptr);
             ~DiskManager();
     };
 }
