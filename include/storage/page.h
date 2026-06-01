@@ -14,7 +14,7 @@ namespace mnemos {
         uint16_t length;
     };
 
-    struct Page {
+    structPage {
         uint8_t data[PAGE_SIZE];
 
         page_id_t get_page_id() {
@@ -61,7 +61,7 @@ namespace mnemos {
             *reinterpret_cast<uint16_t*>(&data[10]) = cnt;
         }
 
-        slot_id_t insert_slot(uint8_t* data, uint16_t length);
+        slot_id_t insert_slot(uint8_t* input_data, uint16_t length);
         bool read_slot(slot_id_t id, uint8_t* buffer);
         bool update_slot(slot_id_t id, uint8_t* data, uint16_t length);
         bool delete_slot(slot_id_t id);

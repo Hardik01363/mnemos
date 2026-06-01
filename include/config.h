@@ -7,6 +7,7 @@ namespace mnemos {
     static constexpr size_t PAGE_SIZE = 4096;
     static constexpr size_t PAGE_HEADER_SIZE = 24;
     static constexpr uint32_t INVALID_PAGE_ID = UINT32_MAX;
+    static constexpr uint16_t INVALID_SLOT_ID = UINT16_MAX;
 
     static constexpr size_t POOL_SIZE = 256;
     static constexpr size_t PAGE_TABLE_SHARDS = 16;
