@@ -66,6 +66,26 @@ namespace mnemos {
     }
 
     bool Page::compact() {
-        
+        uint8_t page[PAGE_SIZE];
+        uint16_t slot_cnt = get_slot_cnt();
+        uint16_t page_fsp = PAGE_SIZE;
+        memcpy(&page[0], &data[0], PAGE_SIZE);
+
+        for(int i = 0; i < slot_cnt; i++) {
+            uint16_t i_offset = *reinterpret_cast<uint16_t*>(&data[PAGE_HEADER_SIZE + i * sizeof(SlotEntry]));
+            uint16_t i_length = *reinterpret_cast<uint16_t*>(&data[PAGE_HEADER_SIZE + i * sizeof(SlotEntry) + 2]);
+
+            if(i_offset == 0) continue;
+
+            *reinterpret_cast<uint16_t*>(&page[PAGE_HEADER_SIZE + i * sizeof(SlotEntry)]) = page_fsp - i_length;
+            *reinterpret_cast<uint16_t*>(&page[PAGE_HEADER_SIZE + i * sizeof(SlotEntry) + 2]) = i_length;
+
+            memcpy(&page[page_fsp - i_length], &data[i_offset], i_length);
+            page_fsp = page_fsp - i_length;
+        }
+
+        memcpy(&data[PAGE_HEADER_SIZE], &page[PAGE_HEADER_SIZE], PAGE_SIZE - PAGE_HEADER_SIZE);
+        set_fsp(page_fsp);
+        return true;
     }
 }

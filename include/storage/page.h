@@ -14,7 +14,7 @@ namespace mnemos {
         uint16_t length;
     };
 
-    structPage {
+    struct Page {
         uint8_t data[PAGE_SIZE];
 
         page_id_t get_page_id() {
