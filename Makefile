@@ -8,7 +8,7 @@ SRC = src/main.cpp \
       src/storage/lru_replacer.cpp \
       src/storage/clock_replacer.cpp \
       src/storage/lruk_replacer.cpp \
-      src/index/btree.cpp \
+#      src/index/btree.cpp \
       src/concurrency/wal.cpp \
       src/concurrency/transaction.cpp \
       src/concurrency/lock_manager.cpp \

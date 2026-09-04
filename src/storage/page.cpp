@@ -27,13 +27,14 @@ namespace mnemos {
         uint16_t slot_cnt = get_slot_cnt();
         if(id >= slot_cnt || *reinterpret_cast<uint16_t*>(&data[PAGE_HEADER_SIZE + id * sizeof(SlotEntry)]) == 0) return std::make_pair(false, 0);
         
-        uint16_t tuple_offset = *reinterpret_cast<uint16_t*>(PAGE_HEADER_SIZE + id * sizeof(SlotEntry));
-        uint16_t read_data_length = *reinterpret_cast<uint16_t*>(PAGE_HEADER_SIZE + id * sizeof(SlotEntry) + 2);
+        uint16_t tuple_offset = *reinterpret_cast<uint16_t*>(&data[PAGE_HEADER_SIZE + id * sizeof(SlotEntry)]);
+        uint16_t read_data_length = *reinterpret_cast<uint16_t*>(&data[PAGE_HEADER_SIZE + id * sizeof(SlotEntry) + 2]);
         memcpy(buffer, &data[tuple_offset], read_data_length);
         return std::make_pair(true, read_data_length);
     }
 
     bool Page::update_slot(slot_id_t id, uint8_t* input_data, uint16_t length) {
+        uint16_t fsp = get_fsp();
         uint16_t slot_cnt = get_slot_cnt();
 
         if(id >= slot_cnt || *reinterpret_cast<uint16_t*>(&data[PAGE_HEADER_SIZE + id * sizeof(SlotEntry)]) == 0) return false;
@@ -50,7 +51,7 @@ namespace mnemos {
         if(length > fsp - PAGE_HEADER_SIZE - slot_cnt * sizeof(SlotEntry)) return false;
 
         *reinterpret_cast<uint16_t*>(&data[PAGE_HEADER_SIZE + id * sizeof(SlotEntry)]) = fsp - length;
-        *reinterpret_cast<uint16_t*>(&data[PAGE_HEADER_SIZE + id * sizeof(SlotEntry]) + 2]) = length;
+        *reinterpret_cast<uint16_t*>(&data[PAGE_HEADER_SIZE + id * sizeof(SlotEntry) + 2]) = length;
         memcpy(&data[fsp - length], input_data, length);
         set_fsp(fsp - length);
         return true;

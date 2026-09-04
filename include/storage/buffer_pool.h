@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstddef>
+#include <cstring>
 #include <vector>
 #include <unordered_map>
 #include <shared_mutex>

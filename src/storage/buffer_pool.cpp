@@ -1,4 +1,4 @@
-#include "../../include/storage/buffer_pool_manager.h"
+#include "../../include/storage/buffer_pool.h"
 
 namespace mnemos {
 
