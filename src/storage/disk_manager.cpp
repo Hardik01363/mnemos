@@ -26,6 +26,10 @@ namespace mnemos {
     }
 
     DiskManager::DiskManager(std::string filename) {
+        //If file doesnt already exists, create it (or else, program would always crash on a freah start on a new machine), but, no truncating existing files to preserve data. thus, using ios::app instead of ios::trunc.
+        open_file_handle.open(filename, std::ios::out | std::ios::binary | std::ios::app);
+        open_file_handle.close();
+
         open_file_handle.open(filename, std::ios::in | std::ios::out | std::ios::binary);
         if(!open_file_handle.good()) std::abort();
         open_file_name = filename;
