@@ -19,4 +19,9 @@ namespace mnemos {
     using frame_id_t = uint32_t;
     using slot_id_t = uint16_t;
     using txn_id_t = uint64_t;
+    
+    //the below BTREE values are calculated by me considering the sizes of every fiel and also onsidering padding in my calculations
+    static constexpr size_t BTREE_INTERNAL_MAX_KEYS = 340;
+    static constexpr size_t BTREE_INTERNAL_MAX_CHILDREN = 341;
+    static constexpr size_t BTREE_LEAF_MAX_ENTRIES = 255;
 }
