@@ -21,6 +21,7 @@ namespace mnemos {
     using txn_id_t = uint64_t;
     
     //the below BTREE values are calculated by me considering the sizes of every fiel and also onsidering padding in my calculations
+    //i could have fit 291 entries in the leaf node by packing the structs manually instead of padding, so as to increase data density by 14%, but, it would incur a CPU overhead to access non-favouable memory adddresses. since the sacle is relatively small, i chose speed over data density, but, would be an easy switch to packing if i ever decide to do so.
     static constexpr size_t BTREE_INTERNAL_MAX_KEYS = 340;
     static constexpr size_t BTREE_INTERNAL_MAX_CHILDREN = 341;
     static constexpr size_t BTREE_LEAF_MAX_ENTRIES = 255;
