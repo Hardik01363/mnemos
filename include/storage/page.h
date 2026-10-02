@@ -1,6 +1,8 @@
 #pragma once
 
 #include <utility>
+#include <shared_mutex>
+#include <cstdint>
 #include "../config.h"
 
 namespace mnemos {
@@ -17,6 +19,13 @@ namespace mnemos {
 
     struct Page {
         uint8_t data[PAGE_SIZE];
+        std::shared_mutex rwlatch; //in-memory page latch (not written to disk)
+        
+        //read lock is shared, but write lock is exclusive
+        inline void RLock() { rwlatch.lock_shared(); }
+        inline void RUnlock() { rwlatch.unlock_shared(); }
+        inline void WLock() { rwlatch.lock(); }
+        inline void WUnlock() { rwlatch.unlock(); }
 
         page_id_t get_page_id() {
         return *reinterpret_cast<page_id_t*>(&data[0]);
